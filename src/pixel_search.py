@@ -15,7 +15,8 @@ from utils import *
 # simulation-related parameters
 threshold_norm = 961
 threshold_confidence = 0.068
-plotting = False
+
+plotting = True
 
 # full database
 database_full = FaceDatabase(use_cache=True)
@@ -97,14 +98,14 @@ def pixel_search_algorithm(database_tests, database_ref, threshold=5, threshold_
 			person_id += 1
 
 		# Verifies if the result of the recognition is valid and compute algorithm references
-		# if cost_function[found_id] <= threshold_norm:
-		if confidence[i] > threshold:
+		if cost_function[found_id] <= threshold_norm:
+		# if confidence[i] > threshold:
 			print(f"Test pixel search : {database_tests.person_ids[i]} (ref) / {database_ref.person_ids[found_id]} - FOUND")
 		else:
 			print(f"Test pixel search : {database_tests.person_ids[i]} (ref) / {database_ref.person_ids[found_id]} (CF : {norm[i]} | confidence : {confidence[i]}) - FAILED")
 
 	# performance evaluation
-	compute_confidence_matrix(database_full, found_indices, reference_indices, confidence, threshold)
+	compute_confidence_matrix(database_full, found_indices, reference_indices, norm, threshold_norm)
 		
 	# ----------------- Plotting -----------------
 	if plot is True:

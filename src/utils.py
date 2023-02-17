@@ -496,18 +496,18 @@ def compute_confidence_matrix(reference_database, prediction, reference, criteri
 	"""
 	# compute performance indices
 	mask_found = prediction == reference
-	n_false_positives 	= len(np.where(np.logical_and(criterion > threshold, np.invert(mask_found)))[0])
-	n_true_positive 	= len(np.where(np.logical_and(criterion > threshold, mask_found))[0])
-	n_false_negatives 	= len(np.where(np.logical_and(criterion < threshold, mask_found))[0])
-	n_true_negative 	= len(np.where(np.logical_and(criterion < threshold, np.invert(mask_found)))[0])
+	n_false_positives 	= len(np.where(np.logical_and(criterion < threshold, np.invert(mask_found)))[0])
+	n_true_positive 	= len(np.where(np.logical_and(criterion < threshold, mask_found))[0])
+	n_false_negatives 	= len(np.where(np.logical_and(criterion > threshold, mask_found))[0])
+	n_true_negative 	= len(np.where(np.logical_and(criterion > threshold, np.invert(mask_found)))[0])
 
 	# print performances
-	print("\nAlgorithm performaces : ")
+	print("\nAlgorithm performances : ")
 	print(f"    Identification rate : {n_true_positive/len(prediction)*100:.1f} %")
 	print(f"    False positive rate : {n_false_positives/(n_false_positives + n_true_negative)*100:.1f} %")
 	print(f"    False negative rate : {n_false_negatives/(n_false_negatives + n_true_positive)*100:.1f} %")
 
 	performance_matrix = np.array([[n_true_positive, n_false_positives], [n_false_negatives, n_true_negative]])
 	
-	print("\nPerformance matrix : ")
+	print("\nIdenfification performance matrix : ")
 	print(performance_matrix)

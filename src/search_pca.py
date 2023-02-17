@@ -101,11 +101,14 @@ def pixel_search_algorithm(database_tests, database_ref, threshold=0.5, threshol
 		norm[i] = cost_function[found_id]
 
 		# Verifies if the result of the recognition is valid and compute algorithm references
-		# if cost_function[found_id] < threshold_norm:
-		if confidence[i] > threshold:
+		if cost_function[found_id] < threshold_norm:
+		# if confidence[i] > threshold:
 			print(f"Test PCA search : {database_tests.person_ids[i]} (ref) / {database_ref.person_ids[found_id]} - FOUND")
 		else:
 			print(f"Test PCA search : {database_tests.person_ids[i]} (ref) / {database_ref.person_ids[found_id]} (CF : {norm[i]} | Confidence : {confidence[i]}) - FAILED")
+	
+	# performance evaluation
+	compute_confidence_matrix(database_full, found_indices, reference_indices, norm, threshold_norm)
 	
 	# ----------------- Plotting -----------------
 	if plot is True:
@@ -131,9 +134,6 @@ def pixel_search_algorithm(database_tests, database_ref, threshold=0.5, threshol
 
 		ax1.tick_params(labelbottom=False)
 
-		# performance evaluation
-		compute_confidence_matrix(database_full, found_indices, reference_indices, confidence, threshold)
-		
 		# plot images
 		for i in range(len(reference_indices)):
 			if i//n_sps_per_fig >= n_figs: # if the number of faces per plot has been reached, create a new figure
